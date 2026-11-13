@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0",
+  "id": "cybercore-cloud",
+  "name": "CyberCore Cloud",
+  "colors": [
+    {
+      "id": "lilac",
+      "name": "Lilac",
+      "hex": "#C6B6F3"
+    },
+    {
+      "id": "mint",
+      "name": "Mint",
+      "hex": "#A8E8DC"
+    },
+    {
+      "id": "sky",
+      "name": "Sky",
+      "hex": "#AED8F5"
+    },
+    {
+      "id": "blush",
+      "name": "Blush",
+      "hex": "#F4C8EA"
+    },
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "hex": "#202842"
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud",
+      "hex": "#FFFFFF"
+    }
+  ],
+  "roles": {
+    "background": "midnight",
+    "surface": "midnight",
+    "foreground": "cloud",
+    "accent": "lilac",
+    "muted": "sky",
+    "success": "mint",
+    "warning": "blush",
+    "error": "blush"
+  }
+}

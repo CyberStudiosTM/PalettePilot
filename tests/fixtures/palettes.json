@@ -1,0 +1,370 @@
+[
+  {
+    "name": "accepts the CyberCore sample",
+    "value": {
+      "schemaVersion": "1.0",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "surface": "midnight",
+        "foreground": "cloud",
+        "accent": "lilac",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush"
+      }
+    },
+    "error": ""
+  },
+  {
+    "name": "accepts a compatible minor version, role, and extra properties",
+    "value": {
+      "schemaVersion": "1.2",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "surface": "midnight",
+        "foreground": "cloud",
+        "accent": "lilac",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush",
+        "secondary": "sky"
+      },
+      "other": true
+    },
+    "error": ""
+  },
+  {
+    "name": "rejects a future major version",
+    "value": {
+      "schemaVersion": "2.0",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "surface": "midnight",
+        "foreground": "cloud",
+        "accent": "lilac",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush"
+      }
+    },
+    "error": "schemaVersion"
+  },
+  {
+    "name": "rejects an unresolved role",
+    "value": {
+      "schemaVersion": "1.0",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "surface": "midnight",
+        "foreground": "cloud",
+        "accent": "missing",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush"
+      }
+    },
+    "error": "existing color ID"
+  },
+  {
+    "name": "rejects missing required roles",
+    "value": {
+      "schemaVersion": "1.0",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "foreground": "cloud",
+        "accent": "lilac",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush"
+      }
+    },
+    "error": "surface"
+  },
+  {
+    "name": "rejects malformed hex",
+    "value": {
+      "schemaVersion": "1.0",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#abc"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "surface": "midnight",
+        "foreground": "cloud",
+        "accent": "lilac",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush"
+      }
+    },
+    "error": "six-digit"
+  },
+  {
+    "name": "rejects duplicate IDs",
+    "value": {
+      "schemaVersion": "1.0",
+      "id": "cybercore-cloud",
+      "name": "CyberCore Cloud",
+      "colors": [
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        },
+        {
+          "id": "mint",
+          "name": "Mint",
+          "hex": "#A8E8DC"
+        },
+        {
+          "id": "sky",
+          "name": "Sky",
+          "hex": "#AED8F5"
+        },
+        {
+          "id": "blush",
+          "name": "Blush",
+          "hex": "#F4C8EA"
+        },
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "hex": "#202842"
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "hex": "#FFFFFF"
+        },
+        {
+          "id": "lilac",
+          "name": "Lilac",
+          "hex": "#C6B6F3"
+        }
+      ],
+      "roles": {
+        "background": "midnight",
+        "surface": "midnight",
+        "foreground": "cloud",
+        "accent": "lilac",
+        "muted": "sky",
+        "success": "mint",
+        "warning": "blush",
+        "error": "blush"
+      }
+    },
+    "error": "Duplicate"
+  },
+  {
+    "name": "rejects non-object documents",
+    "value": [],
+    "error": "JSON object"
+  }
+]
