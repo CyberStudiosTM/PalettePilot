@@ -1,7 +1,8 @@
+import { documentExport } from './documents';
 import { hexToRgb } from '../color-engine/srgb';
 import { resolveRoles, type Palette } from '../themes/palette';
 
-export const formats = ['CyberStudios JSON', 'CSS', 'Swatch JSON', 'GIMP GPL'] as const;
+export const formats = ['CyberStudios JSON', 'CSS', 'Swatch JSON', 'GIMP GPL', 'XML', 'HTML', 'Design tokens'] as const;
 export type Format = typeof formats[number];
 
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n';
@@ -18,6 +19,12 @@ export function createExport(palette: Palette, format: Format) {
       const swatches = palette.colors.map((color, index) => `  --pp-swatch-${index + 1}: ${color.hex};`);
       const roles = Object.entries(resolveRoles(palette)).map(([role, color]) => `  --pp-${role}: ${color};`);
       return { name: name + '.css', type: 'text/css', text: [':root {', ...swatches, ...roles, '}', ''].join('\n') };
+    }
+    case 'XML':
+    case 'HTML':
+    case 'Design tokens': {
+      const { suffix, ...file } = documentExport(palette, format);
+      return { name: name + suffix, ...file };
     }
     case 'GIMP GPL': {
       const rows = palette.colors.map(color => `${hexToRgb(color.hex).join('\t')}\t${singleLine(color.name)}`);

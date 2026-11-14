@@ -1,3 +1,5 @@
+import { contrastRatio } from './accessibility/contrast';
+import { readLibrary, writeLibrary } from './library';
 import { StrictMode, useEffect, useReducer, useRef, useState, type ChangeEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ColorSelect } from './components/ColorSelect';
@@ -11,8 +13,44 @@ import { createExport, downloadExport, formats, type Format } from './exporters/
 import { maxPaletteBytes, optionalRoles, parsePalette, roleNames, validatePalette } from './themes/palette';
 import './style.css';
 
+function variant(palette: ReturnType<typeof loadEditor>['palette'], dark: boolean) {
+  const colors = [...palette.colors].sort((a, b) => contrastRatio(a.hex, '#000000') - contrastRatio(b.hex, '#000000'));
+  const background = (dark ? colors[0] : colors.at(-1)!).id;
+  const foreground = (dark ? colors.at(-1)! : colors[0]).id;
+  const surface = colors.find(color => color.id === background)!;
+  const roles: typeof palette.roles = { ...palette.roles, background, surface: background, foreground };
+  for (const role of ['accent', 'muted', 'success', 'warning', 'error'] as const) {
+    const color = colors.find(swatch => swatch.id === roles[role]);
+    if (!color || contrastRatio(color.hex, surface.hex) < 4.5) roles[role] = foreground;
+  }
+  return { ...palette, roles };
+}
+
 function App() {
-  const [state, dispatch] = useReducer(editorReducer, undefined, loadEditor);
+  const [{ state, past, future }, dispatchHistory] = useReducer(
+    (history: { state: ReturnType<typeof loadEditor>; past: ReturnType<typeof loadEditor>[]; future: ReturnType<typeof loadEditor>[] },
+      action: Parameters<typeof editorReducer>[1] | 'undo' | 'redo' | { restore: ReturnType<typeof loadEditor> }) => {
+      if (action === 'undo') return history.past.length ? {
+        state: history.past.at(-1)!, past: history.past.slice(0, -1), future: [history.state, ...history.future],
+      } : history;
+      if (action === 'redo') return history.future.length ? {
+        state: history.future[0], past: [...history.past, history.state], future: history.future.slice(1),
+      } : history;
+      const state = 'restore' in action ? action.restore : editorReducer(history.state, action);
+      return state === history.state ? history : { state, past: [...history.past.slice(-49), history.state], future: [] };
+    }, undefined, () => ({ state: loadEditor(), past: [], future: [] }),
+  );
+  const dispatch = dispatchHistory;
+  const [library, setLibrary] = useState(readLibrary);
+  function saveProject(suffix = '') {
+    const project = suffix ? { ...state, palette: { ...state.palette, id: crypto.randomUUID(), name: state.palette.name + suffix } } : state;
+    if (suffix.endsWith('Light') || suffix.endsWith('Dark')) {
+      project.palette = variant(project.palette, suffix.endsWith('Dark'));
+    }
+    const next = [...library.filter(item => item.palette.id !== project.palette.id), project];
+    try { writeLibrary(next); setLibrary(next); if (suffix) dispatch({ restore: project }); }
+    catch { setMessage('Could not save the palette library.'); }
+  }
   const [mode, setMode] = useState<Harmony>('Analogous');
   const [anchorId, setAnchor] = useState<string>();
   const [format, setFormat] = useState<Format>('CyberStudios JSON');
@@ -80,6 +118,25 @@ function App() {
           <button type="button" className="secondary import" onClick={() => importer.current?.click()}>↥ Import JSON</button>
           <input ref={importer} type="file" aria-label="Import palette file" hidden accept=".json,application/json" onChange={importPalette} />
         </div>
+        <section className="panel" aria-label="Palette library">
+          <div className="swatch-actions">
+            <button onClick={() => saveProject()}>Save project</button>
+            <button onClick={() => saveProject(' copy')}>Duplicate</button>
+            <button onClick={() => saveProject(' · Light')}>Save light variant</button>
+            <button onClick={() => saveProject(' · Dark')}>Save dark variant</button>
+            <button disabled={!past.length} onClick={() => dispatch('undo')}>Undo</button>
+            <button disabled={!future.length} onClick={() => dispatch('redo')}>Redo</button>
+            <label>Open saved palette
+              <select value="" onChange={event => {
+                const project = library.find(item => item.palette.id === event.target.value);
+                if (project) dispatch({ restore: project });
+              }}>
+                <option value="">Choose a palette</option>
+                {library.map(({ palette }) => <option key={palette.id} value={palette.id}>{palette.name}</option>)}
+              </select>
+            </label>
+          </div>
+        </section>
         <section className="panel editor" aria-labelledby="swatches-heading">
           <div className="editor-header">
             <div><h2 id="swatches-heading">Swatches <small>{colors.length} / {maxColors}</small></h2>
@@ -113,8 +170,11 @@ function App() {
                 onChange={id => dispatch({ type: 'role', role, id })} />)}
             </div>
           </section>
-          <Contrast key={palette.id} palette={palette} />
-          <ThemePreview palette={palette} />
+          <Contrast key={palette.id} palette={palette} onRepair={(id, value) => dispatch({ type: 'swatch', id, field: 'hex', value })} />
+          <div className="two-columns variant-previews" aria-label="Light and dark previews">
+  <ThemePreview palette={{ ...variant(palette, false), name: 'Light preview' }} />
+  <ThemePreview palette={{ ...variant(palette, true), name: 'Dark preview' }} />
+</div>
           <section className="panel export" aria-labelledby="export-heading">
             <h2 id="export-heading">Export palette</h2>
             <p>{format === 'CyberStudios JSON' ? 'Open this file in CloudTerminal to preview your theme.' : 'Download your palette in the selected format.'}</p>

@@ -1,13 +1,14 @@
-import type { CSSProperties } from 'react';
+import { useId, type CSSProperties } from 'react';
 import { resolveRoles, type Palette } from '../themes/palette';
 
 export function ThemePreview({ palette }: { palette: Palette }) {
+  const heading = useId();
   const style = Object.fromEntries(
     Object.entries(resolveRoles(palette)).map(([role, hex]) => [`--preview-${role}`, hex]),
   ) as CSSProperties;
   return (
-    <section className="panel" aria-labelledby="preview-heading">
-      <h2 id="preview-heading">Live preview</h2>
+    <section className="panel" aria-labelledby={heading}>
+      <h2 id={heading}>Live preview</h2>
       <div className="theme-sample" style={style} aria-label="Theme sample">
         <div className="sample-card">
           <strong>{palette.name}</strong>

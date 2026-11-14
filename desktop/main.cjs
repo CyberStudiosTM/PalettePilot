@@ -52,7 +52,7 @@ function createWindow() {
 
 ipcMain.handle('palette:save', async (event, name, text) => {
   if (event.senderFrame?.url !== home || typeof name !== 'string' || typeof text !== 'string' ||
-      !/^[a-z0-9-]{1,83}\.(json|css|gpl)$/.test(name) || Buffer.byteLength(text, 'utf8') > 1024 * 1024) {
+      !/^[a-z0-9-]{1,83}\.(json|css|gpl|xml|html)$/.test(name) || Buffer.byteLength(text, 'utf8') > 1024 * 1024) {
     throw new Error('Invalid palette export.');
   }
   const extension = path.extname(name).slice(1);
